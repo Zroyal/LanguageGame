@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.overrideUserInterfaceStyle = .light
                 
-        let vc = ViewController()
+        let vc = DefaultAppFactory().makeGameViewController()
 
         window?.rootViewController = vc
         
