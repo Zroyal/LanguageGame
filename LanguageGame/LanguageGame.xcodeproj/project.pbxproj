@@ -18,6 +18,9 @@
 		3DFAD0F62861C58000E70D91 /* WordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD0F52861C58000E70D91 /* WordRepository.swift */; };
 		3DFAD0F82861C5BE00E70D91 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD0F72861C5BE00E70D91 /* Word.swift */; };
 		3DFAD0FA2861C5EE00E70D91 /* DefaultWordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD0F92861C5EE00E70D91 /* DefaultWordRepository.swift */; };
+		3DFAD0FD2861D46800E70D91 /* FetchRandomWordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD0FC2861D46800E70D91 /* FetchRandomWordUseCase.swift */; };
+		3DFAD0FF2861D48700E70D91 /* RandomWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD0FE2861D48700E70D91 /* RandomWord.swift */; };
+		3DFAD1012861D4B500E70D91 /* DefaultFetchRandomWordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD1002861D4B500E70D91 /* DefaultFetchRandomWordUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,9 @@
 		3DFAD0F52861C58000E70D91 /* WordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRepository.swift; sourceTree = "<group>"; };
 		3DFAD0F72861C5BE00E70D91 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		3DFAD0F92861C5EE00E70D91 /* DefaultWordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWordRepository.swift; sourceTree = "<group>"; };
+		3DFAD0FC2861D46800E70D91 /* FetchRandomWordUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRandomWordUseCase.swift; sourceTree = "<group>"; };
+		3DFAD0FE2861D48700E70D91 /* RandomWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWord.swift; sourceTree = "<group>"; };
+		3DFAD1002861D4B500E70D91 /* DefaultFetchRandomWordUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFetchRandomWordUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +183,7 @@
 		3DFAD0EB2861B6DE00E70D91 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				3DFAD0FB2861D45300E70D91 /* UseCases */,
 				3DFAD0F42861C56200E70D91 /* Repositories */,
 			);
 			path = Interfaces;
@@ -185,6 +192,7 @@
 		3DFAD0EC2861B70900E70D91 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				3DFAD1002861D4B500E70D91 /* DefaultFetchRandomWordUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -193,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				3DFAD0F72861C5BE00E70D91 /* Word.swift */,
+				3DFAD0FE2861D48700E70D91 /* RandomWord.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -235,6 +244,14 @@
 				3DFAD0F52861C58000E70D91 /* WordRepository.swift */,
 			);
 			path = Repositories;
+			sourceTree = "<group>";
+		};
+		3DFAD0FB2861D45300E70D91 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				3DFAD0FC2861D46800E70D91 /* FetchRandomWordUseCase.swift */,
+			);
+			path = UseCases;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -369,7 +386,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DFAD0BB2860F41800E70D91 /* ViewController.swift in Sources */,
+				3DFAD0FD2861D46800E70D91 /* FetchRandomWordUseCase.swift in Sources */,
 				3DFAD0F82861C5BE00E70D91 /* Word.swift in Sources */,
+				3DFAD1012861D4B500E70D91 /* DefaultFetchRandomWordUseCase.swift in Sources */,
+				3DFAD0FF2861D48700E70D91 /* RandomWord.swift in Sources */,
 				3DFAD0F62861C58000E70D91 /* WordRepository.swift in Sources */,
 				3DFAD0FA2861C5EE00E70D91 /* DefaultWordRepository.swift in Sources */,
 				3DFAD0B72860F41800E70D91 /* AppDelegate.swift in Sources */,
