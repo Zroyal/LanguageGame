@@ -14,6 +14,10 @@
 		3DFAD0CE2860F41A00E70D91 /* LanguageGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD0CD2860F41A00E70D91 /* LanguageGameTests.swift */; };
 		3DFAD0D82860F41A00E70D91 /* LanguageGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD0D72860F41A00E70D91 /* LanguageGameUITests.swift */; };
 		3DFAD0DA2860F41A00E70D91 /* LanguageGameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD0D92860F41A00E70D91 /* LanguageGameUITestsLaunchTests.swift */; };
+		3DFAD0F32861C54E00E70D91 /* words.json in Resources */ = {isa = PBXBuildFile; fileRef = 3DFAD0F22861C54E00E70D91 /* words.json */; };
+		3DFAD0F62861C58000E70D91 /* WordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD0F52861C58000E70D91 /* WordRepository.swift */; };
+		3DFAD0F82861C5BE00E70D91 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD0F72861C5BE00E70D91 /* Word.swift */; };
+		3DFAD0FA2861C5EE00E70D91 /* DefaultWordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD0F92861C5EE00E70D91 /* DefaultWordRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +49,10 @@
 		3DFAD0D32860F41A00E70D91 /* LanguageGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LanguageGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DFAD0D72860F41A00E70D91 /* LanguageGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageGameUITests.swift; sourceTree = "<group>"; };
 		3DFAD0D92860F41A00E70D91 /* LanguageGameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageGameUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3DFAD0F22861C54E00E70D91 /* words.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words.json; sourceTree = "<group>"; };
+		3DFAD0F52861C58000E70D91 /* WordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRepository.swift; sourceTree = "<group>"; };
+		3DFAD0F72861C5BE00E70D91 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		3DFAD0F92861C5EE00E70D91 /* DefaultWordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWordRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +140,7 @@
 		3DFAD0E72860FD4A00E70D91 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3DFAD0F22861C54E00E70D91 /* words.json */,
 				3DFAD0C42860F41A00E70D91 /* Info.plist */,
 				3DFAD0C12860F41A00E70D91 /* LaunchScreen.storyboard */,
 				3DFAD0BF2860F41A00E70D91 /* Assets.xcassets */,
@@ -168,6 +177,7 @@
 		3DFAD0EB2861B6DE00E70D91 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				3DFAD0F42861C56200E70D91 /* Repositories */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -182,6 +192,7 @@
 		3DFAD0ED2861B71E00E70D91 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				3DFAD0F72861C5BE00E70D91 /* Word.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -189,6 +200,7 @@
 		3DFAD0EE2861B72F00E70D91 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				3DFAD0F92861C5EE00E70D91 /* DefaultWordRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -215,6 +227,14 @@
 				3DFAD0EF2861B73600E70D91 /* View */,
 			);
 			path = Game;
+			sourceTree = "<group>";
+		};
+		3DFAD0F42861C56200E70D91 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				3DFAD0F52861C58000E70D91 /* WordRepository.swift */,
+			);
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,6 +341,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DFAD0F32861C54E00E70D91 /* words.json in Resources */,
 				3DFAD0C32860F41A00E70D91 /* LaunchScreen.storyboard in Resources */,
 				3DFAD0C02860F41A00E70D91 /* Assets.xcassets in Resources */,
 			);
@@ -348,6 +369,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DFAD0BB2860F41800E70D91 /* ViewController.swift in Sources */,
+				3DFAD0F82861C5BE00E70D91 /* Word.swift in Sources */,
+				3DFAD0F62861C58000E70D91 /* WordRepository.swift in Sources */,
+				3DFAD0FA2861C5EE00E70D91 /* DefaultWordRepository.swift in Sources */,
 				3DFAD0B72860F41800E70D91 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
