@@ -27,6 +27,9 @@ class GameVC: UIViewController {
 
     private let margin: CGFloat = 16.0
     
+    @Published private var secondsRemaining = 0
+    private var timer: Timer?
+
     
     init(viewModel: GameViewModel) {
         self.viewModel = viewModel
@@ -215,6 +218,16 @@ class GameVC: UIViewController {
             })
             .store(in: &bindings)
 
+        viewModel.$gameFinished
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: { [weak self] gameFinished in
+                if gameFinished {
+                    self?.timer?.invalidate()
+                    exit(0)
+                }
+            })
+            .store(in: &bindings)
+
     }
     
     private func makeAnswerLabel(score: Int, isCorrect: Bool) {
@@ -228,7 +241,20 @@ class GameVC: UIViewController {
     private func setWord(_ word: RandomWord?) {
         translationLabel.text = word?.spanish
         wordLabel.text = word?.english
+        startTimer()
     }
+    
+    private func startTimer() {
+        secondsRemaining = viewModel.getGameTime()
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(
+            timeInterval: 1.0,
+            target: self,
+            selector: #selector(updateTimer),
+            userInfo: nil,
+            repeats: true)
+    }
+
 
     
     // MARK: - Selectors
@@ -241,6 +267,15 @@ class GameVC: UIViewController {
         viewModel.answer(isCorrect: false)
     }
 
+    @objc func updateTimer() {
+        if secondsRemaining > 0 {
+            secondsRemaining -= 1
+        } else {
+            secondsRemaining = viewModel.getGameTime()
+            timer?.invalidate()
+            self.viewModel.answer(isCorrect: nil)
+        }
+    }
 
 }
 

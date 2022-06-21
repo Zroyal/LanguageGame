@@ -14,6 +14,10 @@ class GameViewModel {
     @Published var currentWord: RandomWord?
     @Published var correctAttempts: Int = 0
     @Published var wrongAttempts: Int = 0
+    @Published var gameFinished: Bool = false
+    
+    private let totalQuestions = 15
+    private let validWrongAttempts = 3
     
     
     init(fetchUseCase: FetchRandomWordUseCase) {
@@ -24,13 +28,27 @@ class GameViewModel {
         currentWord = fetchUseCase?.fetchNewWord()
     }
     
-    func answer(isCorrect: Bool) {
-        if (currentWord?.isCorrect ?? false) == isCorrect {
-            correctAttempts += 1
-        } else {
+    func answer(isCorrect: Bool?) {
+        if isCorrect == nil {
             wrongAttempts += 1
+            
+        } else {
+            if (currentWord?.isCorrect ?? false) == (isCorrect ?? false) {
+                correctAttempts += 1
+            } else {
+                wrongAttempts += 1
+            }
         }
         
-        currentWord = fetchUseCase?.fetchNewWord()
+        if wrongAttempts + correctAttempts == totalQuestions || wrongAttempts == validWrongAttempts {
+            gameFinished = true
+        } else {
+            currentWord = fetchUseCase?.fetchNewWord()
+        }
     }
+    
+    func getGameTime() -> Int {
+        return 5
+    }
+
 }
