@@ -25,8 +25,16 @@ class GameVC: UIViewController {
     private var topStack = UIStackView(frame: .zero)
     private var bottomStack = UIStackView(frame: .zero)
 
+    private var timerLabel = UILabel(frame: .zero)
+
     private let margin: CGFloat = 16.0
     
+    private var translationTopConstraint: NSLayoutConstraint?
+    private var startTranslationLocation: CGFloat = 0
+    private var endTranslationLocation: CGFloat = 0
+
+    private var animator: UIViewPropertyAnimator?
+
     @Published private var secondsRemaining = 0
     private var timer: Timer?
 
@@ -56,9 +64,45 @@ class GameVC: UIViewController {
     private func configView() {
         self.view.backgroundColor = .white
 
+        makeTimerLabel()
         makeAttemptLabels()
         makeTranslationRelatedLabels()
         makeButtons()
+        
+        self.view.layoutIfNeeded()
+        
+        startTranslationLocation = topStack.frame.maxY + corretLabel.frame.height + wrongLabel.frame.height
+        endTranslationLocation = bottomStack.frame.origin.y - wrongButton.frame.height - margin
+
+    }
+
+    private func makeTimerLabel() {
+        timerLabel.translatesAutoresizingMaskIntoConstraints = false
+        timerLabel.textColor = .darkGray
+        timerLabel.font = .systemFont(ofSize: 14.0)
+        timerLabel.layer.cornerRadius = 12.0
+        timerLabel.layer.masksToBounds = true
+        timerLabel.backgroundColor = .systemGroupedBackground
+        timerLabel.text = "0"
+        timerLabel.textAlignment = .center
+
+        view.addSubview(timerLabel)
+        
+        let margins = view.layoutMarginsGuide
+
+        NSLayoutConstraint.activate([
+            timerLabel.leadingAnchor.constraint(
+                equalTo: self.view.leadingAnchor,
+                constant: margin),
+                        
+            timerLabel.topAnchor.constraint(
+                equalTo: margins.topAnchor,
+                constant: margin),
+            
+            timerLabel.widthAnchor.constraint(equalToConstant: 24.0),
+            
+            timerLabel.heightAnchor.constraint(equalToConstant: 24.0)
+        ])
     }
 
     private func makeAttemptLabels() {
@@ -111,6 +155,7 @@ class GameVC: UIViewController {
         wordLabel.font = .systemFont(ofSize: 20.0, weight: .semibold)
         self.view.addSubview(wordLabel)
 
+        translationLabel.isHidden = true
         translationLabel.textColor = .black
         translationLabel.text = "translate"
         translationLabel.textAlignment = .center
@@ -118,6 +163,15 @@ class GameVC: UIViewController {
         translationLabel.font = .systemFont(ofSize: 18.0)
         self.view.addSubview(translationLabel)
         
+        translationTopConstraint = NSLayoutConstraint(
+            item: self.translationLabel,
+            attribute: .top,
+            relatedBy: .equal,
+            toItem: self.view,
+            attribute: .top,
+            multiplier: 1,
+            constant: startTranslationLocation)
+
         NSLayoutConstraint.activate([
             wordLabel.leadingAnchor.constraint(
                 equalTo: self.view.leadingAnchor,
@@ -129,7 +183,7 @@ class GameVC: UIViewController {
             
             wordLabel.centerYAnchor.constraint(
                 equalTo: self.view.centerYAnchor,
-                constant: -2*margin),
+                constant: -margin),
             
             translationLabel.leadingAnchor.constraint(
                 equalTo: self.view.leadingAnchor,
@@ -139,9 +193,7 @@ class GameVC: UIViewController {
                 equalTo: self.view.trailingAnchor,
                 constant: -margin),
             
-            translationLabel.centerYAnchor.constraint(
-                equalTo: wordLabel.bottomAnchor,
-                constant: margin),
+            translationTopConstraint!
         ])
     }
     
@@ -223,10 +275,18 @@ class GameVC: UIViewController {
             .sink(receiveValue: { [weak self] gameFinished in
                 if gameFinished {
                     self?.timer?.invalidate()
-                    exit(0)
+                    self?.showEndDialogue()
                 }
             })
             .store(in: &bindings)
+        
+        self.$secondsRemaining
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: { [weak self] remaining in
+                self?.timerLabel.text = "\(remaining)"
+            })
+            .store(in: &bindings)
+
 
     }
     
@@ -242,6 +302,7 @@ class GameVC: UIViewController {
         translationLabel.text = word?.spanish
         wordLabel.text = word?.english
         startTimer()
+        startAnimating()
     }
     
     private func startTimer() {
@@ -255,15 +316,41 @@ class GameVC: UIViewController {
             repeats: true)
     }
 
+    private func reset() {
+        translationLabel.isHidden = true
+        translationTopConstraint!.constant = self.startTranslationLocation
+        self.view.layoutIfNeeded()
+    }
+    
+    private func startAnimating() {
+        animator?.stopAnimation(true)
+
+        animator = UIViewPropertyAnimator(duration: 5.0, curve: .easeInOut) {
+            self.translationLabel.isHidden = false
+            self.translationTopConstraint!.constant = self.endTranslationLocation
+            self.view.layoutIfNeeded()
+        }
+
+        animator?.addCompletion { _ in
+            self.reset()
+            self.viewModel.answer(isCorrect: nil)
+        }
+        
+        animator?.startAnimation()
+    }
 
     
     // MARK: - Selectors
     
     @objc private func correctTapped() {
+        animator?.stopAnimation(true)
+        reset()
         viewModel.answer(isCorrect: true)
     }
 
     @objc private func wrongTapped() {
+        animator?.stopAnimation(true)
+        reset()
         viewModel.answer(isCorrect: false)
     }
 
@@ -275,6 +362,33 @@ class GameVC: UIViewController {
             timer?.invalidate()
             self.viewModel.answer(isCorrect: nil)
         }
+    }
+
+    @objc private func showEndDialogue() {
+        let message = "\(NSLocalizedString("yourScore", comment: "yourScore")): \(viewModel.correctAttempts)"
+        
+        let title = NSLocalizedString("gameFinished", comment: "gameFinished")
+        
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert)
+        
+        let restartString = NSLocalizedString("restart", comment: "restart")
+        let restart = UIAlertAction(title: restartString, style: .default) { _ in
+            self.reset()
+            self.viewModel.resetGame()
+        }
+
+        let quitString = NSLocalizedString("quit", comment: "quit")
+        let quit = UIAlertAction(title: quitString, style: .destructive) { _ in
+            exit(0)
+        }
+
+        alert.addAction(restart)
+        alert.addAction(quit)
+        
+        self.present(alert, animated: true)
     }
 
 }

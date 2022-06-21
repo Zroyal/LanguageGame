@@ -51,4 +51,12 @@ class GameViewModel {
         return 5
     }
 
+    func resetGame() {
+        gameFinished = false
+        correctAttempts = 0
+        wrongAttempts = 0
+        fetchUseCase?.resetWords()
+        startGame()
+    }
+
 }
